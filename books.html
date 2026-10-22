@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f8f7f2">
+    <meta name="description" content="Explore the OpenShelf book library and find your next favorite read.">
+    <title>Browse books — OpenShelf</title>
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav" aria-label="Main navigation">
+            <a class="brand" href="library.html" aria-label="OpenShelf home">
+                <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4.5 5.75c2.65-.63 5.12-.22 7.5 1.25v12c-2.38-1.47-4.85-1.88-7.5-1.25v-12ZM19.5 5.75c-2.65-.63-5.12-.22-7.5 1.25v12c2.38-1.47 4.85-1.88 7.5-1.25v-12Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+                <span>OpenShelf</span>
+            </a>
+            <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-links"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+            <ul class="nav-links" id="primary-links">
+                <li><a href="library.html">Discover</a></li>
+                <li><a href="books.html" aria-current="page">Browse books</a></li>
+                <li><a href="collections.html">Collections</a></li>
+                <li><a href="about.html">About us</a></li>
+            </ul>
+            <div class="nav-actions"><a class="sign-in" href="signin.html">Sign in</a><a class="join-button" href="join.html">Join the library</a></div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <section class="page-intro">
+                <p class="eyebrow">The OpenShelf library</p>
+                <h1>Browse books</h1>
+                <p>Follow a thread of curiosity or search for a title. Your next lovely read might be one book away.</p>
+            </section>
+            <section class="content-section" aria-label="Book catalog">
+                <div class="toolbar">
+                    <input class="search-input" id="book-search" type="search" placeholder="Search by title, author, or topic…" aria-label="Search books">
+                </div>
+                <div class="card-grid" id="book-grid">
+                    <article class="card" data-search="the stories we carry fiction family belonging">
+                        <div class="card-art" aria-hidden="true">The stories<br>we carry</div>
+                        <p class="category">Fiction</p>
+                        <h2>The stories we carry</h2>
+                        <p>A gentle, quietly surprising story about family, belonging, and the places we return to.</p>
+                    </article>
+                    <article class="card" data-search="outside slowly nature essays landscape">
+                        <div class="card-art" aria-hidden="true">Outside,<br>slowly</div>
+                        <p class="category">Nature &amp; place</p>
+                        <h2>Outside, slowly</h2>
+                        <p>Thoughtful essays that invite you to pause, look closer, and reconnect with the outdoors.</p>
+                    </article>
+                    <article class="card" data-search="small rituals nonfiction wellbeing creativity">
+                        <div class="card-art" aria-hidden="true">Small<br>Rituals</div>
+                        <p class="category">Nonfiction</p>
+                        <h2>Small rituals</h2>
+                        <p>Simple ideas for making a little more room for creativity and calm in everyday life.</p>
+                    </article>
+                    <article class="card" data-search="maps to elsewhere adventure travel discovery">
+                        <div class="card-art" aria-hidden="true">Maps to<br>Elsewhere</div>
+                        <p class="category">Adventure</p>
+                        <h2>Maps to elsewhere</h2>
+                        <p>An armchair journey through unexpected landscapes and the people who call them home.</p>
+                    </article>
+                    <article class="card" data-search="a quiet kind of magic fiction friendship">
+                        <div class="card-art" aria-hidden="true">A quiet<br>kind of magic</div>
+                        <p class="category">Fiction</p>
+                        <h2>A quiet kind of magic</h2>
+                        <p>A warm-hearted tale of friendship, fresh starts, and ordinary days made extraordinary.</p>
+                    </article>
+                    <article class="card" data-search="the art of light art design photography">
+                        <div class="card-art" aria-hidden="true">The art<br>of light</div>
+                        <p class="category">Art &amp; design</p>
+                        <h2>The art of light</h2>
+                        <p>A visual celebration of the small details that bring a room, a photograph, or an idea to life.</p>
+                    </article>
+                </div>
+                <p class="empty-state" id="empty-state" hidden>No books match that search. Try another title or topic.</p>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer"><div class="container footer-inner"><span>OpenShelf — Good books, good company.</span><span>Made for readers, wherever you are.</span></div></footer>
+    <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const primaryLinks = document.querySelector("#primary-links");
+        menuToggle.addEventListener("click", () => {
+            const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+            menuToggle.setAttribute("aria-expanded", String(!isOpen));
+            menuToggle.setAttribute("aria-label", isOpen ? "Open navigation menu" : "Close navigation menu");
+            primaryLinks.classList.toggle("is-open", !isOpen);
+        });
+
+        const searchInput = document.querySelector("#book-search");
+        const bookCards = [...document.querySelectorAll("#book-grid .card")];
+        const emptyState = document.querySelector("#empty-state");
+        searchInput.addEventListener("input", () => {
+            const query = searchInput.value.trim().toLowerCase();
+            let visibleCount = 0;
+            bookCards.forEach((card) => {
+                const matches = card.dataset.search.includes(query);
+                card.hidden = !matches;
+                if (matches) visibleCount += 1;
+            });
+            emptyState.hidden = visibleCount !== 0;
+        });
+    </script>
+</body>
+</html>
